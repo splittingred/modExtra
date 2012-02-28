@@ -103,7 +103,7 @@ Ext.reg('modextra-grid-items',modExtra.grid.Items);
 
 modExtra.window.CreateItem = function(config) {
     config = config || {};
-    this.ident = config.ident || 'mecitem'+Ext.id();
+    this.ident = config.ident || 'modextra-mecitem'+Ext.id();
     Ext.applyIf(config,{
         title: _('modextra.item_create')
         ,id: this.ident
@@ -115,14 +115,14 @@ modExtra.window.CreateItem = function(config) {
             xtype: 'textfield'
             ,fieldLabel: _('name')
             ,name: 'name'
-            ,id: 'modextra-'+this.ident+'-name'
-            ,width: 300
+            ,id: this.ident+'-name'
+            ,anchor: '100%'
         },{
             xtype: 'textarea'
             ,fieldLabel: _('description')
             ,name: 'description'
-            ,id: 'modextra-'+this.ident+'-description'
-            ,width: 300
+            ,id: this.ident+'-description'
+            ,anchor: '100%'
         }]
     });
     modExtra.window.CreateItem.superclass.constructor.call(this,config);
@@ -133,7 +133,7 @@ Ext.reg('modextra-window-item-create',modExtra.window.CreateItem);
 
 modExtra.window.UpdateItem = function(config) {
     config = config || {};
-    this.ident = config.ident || 'meuitem'+Ext.id();
+    this.ident = config.ident || 'modextra-meuitem'+Ext.id();
     Ext.applyIf(config,{
         title: _('modextra.item_update')
         ,id: this.ident
@@ -144,18 +144,18 @@ modExtra.window.UpdateItem = function(config) {
         ,fields: [{
             xtype: 'hidden'
             ,name: 'id'
-            ,id: 'modextra-'+this.ident+'-id'
+            ,id: this.ident+'-id'
         },{
             xtype: 'textfield'
             ,fieldLabel: _('name')
             ,name: 'name'
-            ,id: 'modextra-'+this.ident+'-name'
+            ,id: this.ident+'-name'
             ,width: 300
         },{
             xtype: 'textarea'
             ,fieldLabel: _('description')
             ,name: 'description'
-            ,id: 'modextra-'+this.ident+'-description'
+            ,id: this.ident+'-description'
             ,width: 300
         }]
     });

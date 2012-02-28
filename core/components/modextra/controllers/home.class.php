@@ -25,9 +25,15 @@
  * @package modextra
  * @subpackage controllers
  */
-$modx->regClientStartupScript($modExtra->config['jsUrl'].'mgr/widgets/items.grid.js');
-$modx->regClientStartupScript($modExtra->config['jsUrl'].'mgr/widgets/home.panel.js');
-$modx->regClientStartupScript($modExtra->config['jsUrl'].'mgr/sections/home.js');
-$output = '<div id="modextra-panel-home-div"></div>';
+class modExtraHomeManagerController extends modExtraBaseManagerController {
+    public function process(array $scriptProperties = array()) {
 
-return $output;
+    }
+    public function getPageTitle() { return $this->modx->lexicon('modextra'); }
+    public function loadCustomCssJs() {
+        $this->addJavascript($this->modextra->config['jsUrl'].'mgr/widgets/items.grid.js');
+        $this->addJavascript($this->modextra->config['jsUrl'].'mgr/widgets/home.panel.js');
+        $this->addLastJavascript($this->modextra->config['jsUrl'].'mgr/sections/home.js');
+    }
+    public function getTemplateFile() { return $this->modextra->config['templatesPath'].'home.tpl'; }
+}

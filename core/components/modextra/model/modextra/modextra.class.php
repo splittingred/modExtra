@@ -25,6 +25,13 @@
  * @package modextra
  */
 class modExtra {
+    /** @var \modX $modx */
+    public $modx;
+    /** @var array $config */
+    public $config = array();
+    /** @var array $chunks */
+    public $chunks = array();
+
     function __construct(modX &$modx,array $config = array()) {
         $this->modx =& $modx;
 
@@ -46,43 +53,11 @@ class modExtra {
             'chunkSuffix' => '.chunk.tpl',
             'snippetsPath' => $corePath.'elements/snippets/',
             'processorsPath' => $corePath.'processors/',
+            'templatesPath' => $corePath.'templates/',
         ),$config);
 
         $this->modx->addPackage('modextra',$this->config['modelPath']);
         $this->modx->lexicon->load('modextra:default');
-    }
-
-    /**
-     * Initializes modExtra into different contexts.
-     *
-     * @access public
-     * @param string $ctx The context to load. Defaults to web.
-     */
-    public function initialize($ctx = 'web') {
-        switch ($ctx) {
-            case 'mgr':
-                if (!$this->modx->loadClass('modextra.request.modExtraControllerRequest',$this->config['modelPath'],true,true)) {
-                    return 'Could not load controller request handler.';
-                }
-                $this->request = new modExtraControllerRequest($this);
-                return $this->request->handleRequest();
-            break;
-            case 'connector':
-                if (!$this->modx->loadClass('modextra.request.modExtraConnectorRequest',$this->config['modelPath'],true,true)) {
-                    return 'Could not load connector request handler.';
-                }
-                $this->request = new modExtraConnectorRequest($this);
-                return $this->request->handle();
-            break;
-            default:
-                /* if you wanted to do any generic frontend stuff here.
-                 * For example, if you have a lot of snippets but common code
-                 * in them all at the beginning, you could put it here and just
-                 * call $modextra->initialize($modx->context->get('key'));
-                 * which would run this.
-                 */
-            break;
-        }
     }
 
     /**
@@ -125,6 +100,7 @@ class modExtra {
         $f = $this->config['chunksPath'].strtolower($name).$suffix;
         if (file_exists($f)) {
             $o = file_get_contents($f);
+            /** @var modChunk $chunk */
             $chunk = $this->modx->newObject('modChunk');
             $chunk->set('name',$name);
             $chunk->setContent($o);
